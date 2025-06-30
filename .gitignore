@@ -1,3 +1,9 @@
 /node_modules/
 /build/
 .env
+.idea/
+.vscode/
+temp/
+coverage
+ormconfig.json
+dist
