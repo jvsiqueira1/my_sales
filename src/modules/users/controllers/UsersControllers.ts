@@ -3,7 +3,7 @@ import ListUsersService from "../services/ListUsersService";
 import CreateUserService from "../services/CreateUserService";
 
 export default class UsersControllers {
-  async index(request: Request, response: Response): Promise<Response> {
+  async index(_request: Request, response: Response): Promise<Response> {
     const listUsers = new ListUsersService()
 
     const users = await listUsers.execute()

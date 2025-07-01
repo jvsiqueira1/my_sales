@@ -3,7 +3,6 @@ import ListProductService from "../services/ListProductService";
 import ShowProductService from "../services/ShowProductService";
 import CreateProductService from "../services/CreateProductService";
 import UpdateProductService from "../services/UpdateProductService";
-import { request } from "http";
 import DeleteProductService from "../services/DeleteProductService";
 
 export default class ProductsControllers {
