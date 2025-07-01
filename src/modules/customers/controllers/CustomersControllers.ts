@@ -28,7 +28,7 @@ export default class CustomerControllers {
 
   async update(request: Request, response: Response): Promise<Response> {
     const { name, email } = request.body
-    const id  = Number(request.params.id)
+    const id = Number(request.params.id)
     const updateCustomer = new UpdateCustomerService()
     const customer = await updateCustomer.execute({ id, name, email })
     return response.json(customer)
