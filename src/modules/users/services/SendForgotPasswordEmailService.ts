@@ -8,14 +8,16 @@ interface IForgotPassword {
 
 export default class SendForgotPasswordEmailService {
   async execute({ email }: IForgotPassword): Promise<void> {
-    const user = await usersRepositories.findByEmail(email)
-
-    if(!user) {
-      throw new AppError('User not found', 404)
+    try {
+      const user = await usersRepositories.findByEmail(email)
+      if(!user) {
+        throw new AppError('User not found', 404)
+      }
+      const token = await userTokensRepositories.generate(user.id)
+      console.log(token)
+    } catch (error) {
+      console.error('Erro ao gerar token:', error)
+      throw error
     }
-
-    const token = await userTokensRepositories.generate(user.id)
-
-    console.log(token)
   }
 }
