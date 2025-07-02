@@ -1,11 +1,16 @@
 import { AppDataSource } from "@shared/typeorm/data-source"
 import { Order } from "../entities/Order"
 import { Customer } from "@modules/customers/database/entities/Customer"
-import { OrdersProducts } from "../entities/OrdersProducts"
 
 interface ICreateOrder {
   customer: Customer
-  products: OrdersProducts[]
+  products: ICreateOrderProducts[]
+}
+
+interface ICreateOrderProducts {
+  product_id: string
+  price: number
+  quantity: number
 }
 
 export const orderRepositories = AppDataSource.getRepository(Order).extend({
@@ -21,7 +26,7 @@ export const orderRepositories = AppDataSource.getRepository(Order).extend({
   async createOrder({ customer, products }: ICreateOrder): Promise<Order> {
     const order = this.create({
       customer,
-      order_products: products
+      order_products: products,
     })
 
     await this.save(order)

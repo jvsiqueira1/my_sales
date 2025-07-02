@@ -19,7 +19,7 @@ export class CreateOrders1751401009357 implements MigrationInterface {
               type: 'timestamp',
               default: 'now()',
             },
-             {
+            {
               name: 'updated_at',
               type: 'timestamp',
               default: 'now()',

@@ -9,7 +9,7 @@ export class AddOrderIdToOrdersProducts1751401806475 implements MigrationInterfa
           name: 'order_id',
           type: 'integer',
           isNullable: true,
-        })
+        }),
       )
 
       await queryRunner.createForeignKey(
