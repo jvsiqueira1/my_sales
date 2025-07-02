@@ -37,10 +37,12 @@
     "dotenv": "^17.0.0",
     "express": "^4.21.2",
     "express-async-errors": "^3.1.1",
+    "ioredis": "^5.6.1",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.1",
     "nodemailer": "^7.0.4",
     "pg": "^8.16.3",
+    "redis": "^4.7.1",
     "reflect-metadata": "^0.2.2",
     "typeorm": "^0.3.25"
   }
