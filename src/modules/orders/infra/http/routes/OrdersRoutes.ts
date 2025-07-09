@@ -1,5 +1,5 @@
 import { Router } from "express"
-import OrdersControllers from "../../controller/OrdersControllers"
+import OrdersControllers from "../controller/OrdersControllers"
 import AuthMiddleware from "@shared/middlewares/AuthMiddleware"
 import { createOrderSchema, idParamsOrderSchema } from "../schemas/OrdersSchemas"
 

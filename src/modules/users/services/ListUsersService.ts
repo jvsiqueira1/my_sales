@@ -1,9 +1,22 @@
-import { User } from "../infra/database/entities/User"
-import { usersRepositories } from "../infra/database/repositories/UsersRepositories"
+import { inject, injectable } from "tsyringe";
+import { IUserRepositories } from "../domain/repositories/IUserRepositories";
+import { IPaginateUser } from "../domain/models/IPaginateUser";
 
+interface SearchParams {
+  page: number;
+  skip: number;
+  take: number;
+}
+
+@injectable()
 export default class ListUsersService {
-  async execute(): Promise<User[]> {
-    const users = await usersRepositories.find()
-    return users
+  constructor(
+    @inject("UsersRepositories")
+    private usersRepository: IUserRepositories
+  ) {}
+
+  async execute({ page, skip, take }: SearchParams): Promise<IPaginateUser> {
+    const users = await this.usersRepository.findAll({ page, skip, take });
+    return users;
   }
 }

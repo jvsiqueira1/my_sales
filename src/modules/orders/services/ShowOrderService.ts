@@ -1,12 +1,23 @@
-import AppError from "@shared/errors/AppError";
-import { Order } from "../infra/database/entities/Order";
-import { orderRepositories } from "../infra/database/repositories/OrderRepositories";
+import AppError from "@shared/errors/AppError"
+import { inject, injectable } from "tsyringe"
+import { IOrder } from "../domain/models/IOrder"
+import { IOrdersRepository } from "../domain/repositories/IOrdersRepository"
 
+interface IRequest {
+  id: string
+}
+
+@injectable()
 export class ShowOrderService {
-  async execute(id: string): Promise<Order> {
-    const order = await orderRepositories.findById(Number(id))
+  constructor(
+    @inject('OrdersRepository')
+    private ordersRepository: IOrdersRepository
+  ) {}
 
-    if(!order) {
+  async execute({ id }: IRequest): Promise<IOrder> {
+    const order = await this.ordersRepository.findById(Number(id))
+
+    if (!order) {
       throw new AppError('Order not found')
     }
 

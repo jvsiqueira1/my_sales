@@ -1,5 +1,5 @@
 import { Router } from "express"
-import ProfileControllers from "../../controllers/ProfileControllers"
+import ProfileControllers from "../controllers/ProfileControllers"
 import { UpdateUserSchema } from "../schemas/UpdateUserSchema"
 import AuthMiddleware from "@shared/middlewares/AuthMiddleware"
 

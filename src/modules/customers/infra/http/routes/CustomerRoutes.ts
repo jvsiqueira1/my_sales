@@ -1,5 +1,5 @@
 import { Router } from "express"
-import CustomerControllers from "../../controllers/CustomersControllers"
+import CustomerControllers from "../controllers/CustomersControllers"
 import AuthMiddleware from "@shared/middlewares/AuthMiddleware"
 import { createCustomerSchema, idParamsValidate, updateCustomerSchema } from "../schemas/CustomerSchema"
 

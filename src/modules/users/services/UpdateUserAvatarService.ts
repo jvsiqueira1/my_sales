@@ -1,34 +1,41 @@
-import AppError from "@shared/errors/AppError"
-import { User } from "../infra/database/entities/User"
-import { usersRepositories } from "../infra/database/repositories/UsersRepositories"
-import path from "path"
-import fs from 'fs'
-import uploadConfig from "@config/upload"
+import { inject, injectable } from "tsyringe";
+import AppError from "@shared/errors/AppError";
+import path from "path";
+import fs from 'fs';
+import uploadConfig from "@config/upload";
+import { IUserRepositories } from "../domain/repositories/IUserRepositories";
+import { IUser } from "../domain/models/IUser";
 
 interface IUpdateUserAvatar {
-  userId: number
-  avatarFileName: string
+  userId: string;
+  avatarFileName: string;
 }
 
+@injectable()
 export default class UpdateUserAvatarService {
-  async execute({ userId, avatarFileName}: IUpdateUserAvatar): Promise<User> {
-    const user = await usersRepositories.findById(userId)
+  constructor(
+    @inject("UsersRepositories")
+    private usersRepository: IUserRepositories
+  ) {}
+
+  async execute({ userId, avatarFileName }: IUpdateUserAvatar): Promise<IUser> {
+    const user = await this.usersRepository.findById(String(userId));
 
     if (!user) {
-      throw new AppError('User not found', 404)
+      throw new AppError("User not found", 404);
     }
 
-    if(user.avatar) {
-      const userAvatarFilePath = path.join(uploadConfig.directory, user.avatar)
-      const userAvatarFileExists = await fs.promises.stat(userAvatarFilePath)
+    if (user.avatar) {
+      const userAvatarFilePath = path.join(uploadConfig.directory, user.avatar);
+      const userAvatarFileExists = await fs.promises.stat(userAvatarFilePath).catch(() => null);
 
       if (userAvatarFileExists) {
-        await fs.promises.unlink(userAvatarFilePath)
+        await fs.promises.unlink(userAvatarFilePath);
       }
     }
 
-    user.avatar = avatarFileName
-    await usersRepositories.save(user)
-    return user
+    user.avatar = avatarFileName;
+    await this.usersRepository.save(user);
+    return user;
   }
 }

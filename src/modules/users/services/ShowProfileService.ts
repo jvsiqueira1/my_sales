@@ -1,19 +1,26 @@
+import { inject, injectable } from "tsyringe";
 import AppError from "@shared/errors/AppError";
-import { User } from "../infra/database/entities/User";
-import { usersRepositories } from "../infra/database/repositories/UsersRepositories";
+import { IUserRepositories } from "../domain/repositories/IUserRepositories";
+import { IUser } from "../domain/models/IUser";
 
 interface IShowProfile {
-  user_id: number
+  user_id: string;
 }
 
+@injectable()
 export default class ShowProfileService {
-  async execute({ user_id }: IShowProfile): Promise<User> {
-    const user = await usersRepositories.findById(user_id)
+  constructor(
+    @inject("UsersRepositories")
+    private usersRepository: IUserRepositories
+  ) {}
 
-    if(!user) {
-      throw new AppError('User not found', 404)
+  async execute({ user_id }: IShowProfile): Promise<IUser> {
+    const user = await this.usersRepository.findById(String(user_id));
+
+    if (!user) {
+      throw new AppError("User not found", 404);
     }
 
-    return user
+    return user;
   }
 }

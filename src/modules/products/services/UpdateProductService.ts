@@ -1,38 +1,45 @@
-import AppError from "@shared/errors/AppError"
-import { Product } from "../infra/database/entities/Product"
-import { productsRepositories } from "../infra/database/repositories/ProductsRepositories"
-import RedisCache from "@shared/cache/RedisCache"
+import { inject, injectable } from "tsyringe";
+import AppError from "@shared/errors/AppError";
+import RedisCache from "@shared/cache/RedisCache";
+import { IProduct } from "../domain/models/IProduct";
+import { IProductsRepository } from "../domain/repositories/IProductsRepository";
 
-interface IUpudateProduct {
-  id: string
-  name: string
-  price: number
-  quantity: number
+interface IUpdateProduct {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
 }
 
+@injectable()
 export default class UpdateProductService {
-  async execute({id, name, price, quantity}: IUpudateProduct): Promise<Product> {
-    const redisCache = new RedisCache()
-    const product = await productsRepositories.findById(id)
+  constructor(
+    @inject("ProductsRepository")
+    private productsRepository: IProductsRepository
+  ) {}
 
-    if(!product) {
-      throw new AppError('Product not found', 404)
+  async execute({ id, name, price, quantity }: IUpdateProduct): Promise<IProduct> {
+    const redisCache = new RedisCache();
+    const product = await this.productsRepository.findById(id);
+
+    if (!product) {
+      throw new AppError('Product not found', 404);
     }
 
-    const productExists = await productsRepositories.finByName(name)
+    const productExists = await this.productsRepository.findByName(name);
 
-    if(productExists) {
-      throw new AppError('There is already one product with this name', 409)
+    if (productExists && productExists.id !== id) {
+      throw new AppError('There is already one product with this name', 409);
     }
 
-    product.name = name
-    product.price = price
-    product.quantity = quantity
+    product.name = name;
+    product.price = price;
+    product.quantity = quantity;
 
-    await productsRepositories.save(product)
+    await this.productsRepository.save(product);
 
-    await redisCache.invalidate('api-mysales-PRODUCT_LIST')
+    await redisCache.invalidate('api-mysales-PRODUCT_LIST');
 
-    return product
+    return product;
   }
 }

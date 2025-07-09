@@ -1,6 +1,6 @@
-import { CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { OrdersProducts } from "./OrdersProducts";
-import { Customer } from "@modules/customers/infra/database/entities/Customer";
+import { CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
+import { OrdersProducts } from "./OrdersProducts"
+import { Customer } from "@modules/customers/infra/database/entities/Customer"
 
 @Entity('orders')
 export class Order {

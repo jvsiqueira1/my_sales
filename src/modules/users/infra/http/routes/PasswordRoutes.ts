@@ -1,6 +1,6 @@
 import { Router } from "express"
-import ForgotPasswordControllers from "../../controllers/ForgotPasswordControllers"
-import ResetPasswordControllers from "../../controllers/ResetPasswordControllers"
+import ForgotPasswordControllers from "../controllers/ForgotPasswordControllers"
+import ResetPasswordControllers from "../controllers/ResetPasswordControllers"
 import { ForgotPasswordSchema, ResetPasswordSchema } from "../schemas/PasswordSchemas"
 
 

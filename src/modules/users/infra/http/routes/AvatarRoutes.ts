@@ -1,5 +1,5 @@
 import { Router } from "express"
-import UpdateAvatarControllers from "../../controllers/UpdateAvatarControllers"
+import UpdateAvatarControllers from "../controllers/UpdateAvatarControllers"
 
 import multer from "multer"
 import uploadConfig from '@config/upload'

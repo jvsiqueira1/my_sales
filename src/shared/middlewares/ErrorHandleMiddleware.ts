@@ -14,7 +14,7 @@ export default class ErrorHandleMiddleware {
         message: error.message
       })
     }
-
+    console.log('ta aqui o teu erro 500: ', error)
     return res.status(500).json({
       type: 'error',
       message: 'Internal server error'
